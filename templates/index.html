@@ -55,7 +55,7 @@
         <h2> FeedBack</h2>
 
         <div class="mb-3">
-            <label for="title" class="form-label">UserName: </label>
+            <label for="title" class="form-label">Title: </label>
             <input type="text" class="form-control" id="title" placeholder="Type your name here!">
           </div>
           <div class="mb-3">
@@ -76,16 +76,16 @@
             <thead>
               <tr>
                 <th scope="col">S.NO</th>
-                <th scope="col">Title</th>
+                <th scope="col">title</th>
                 <th scope="col">Desc</th>
                 <th scope="col">Date Created</th>
               </tr>
             </thead>
             <tbody>
-             {% for TODO in alltodo %}
+             {% for todo in alltodo %}
              <tr>
               
-              <th scope="row">1</th>
+              <th scope="row">{{todo.sno}}</th>
               <td>{{todo.title}}</td>
               <td>{{todo.desc}}</td>
               <td>{{todo.date_created}}</td>
