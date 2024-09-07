@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from sqlalchemy import create_engine, Column, Integer, String, DateTime
 
 from flask_sqlalchemy import SQLAlchemy
@@ -23,11 +23,14 @@ class Todo(db.Model):
 with app.app_context():
     db.create_all()
 
-@app.route('/main_page')
+@app.route('/', methods =['GET', 'POST'])
 def main_page():
-    todo = Todo(title ="First todo", desc = "Make an investment in crypto")
-    db.session.add(todo)
-    db.session.commit() 
+    if request.method =="POST":
+        title =request.form['title']
+        desc = request.form['desc']
+        todo = Todo(title = title, desc = desc)
+        db.session.add(todo)
+        db.session.commit() 
     alltodo = Todo.query.all()
     
     return render_template('index.html', alltodo=alltodo)
