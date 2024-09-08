@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from sqlalchemy import create_engine, Column, Integer, String, DateTime
 
 from flask_sqlalchemy import SQLAlchemy
@@ -41,5 +41,25 @@ def main_page():
 def product():
     alltodo = Todo.query.all()
     print(alltodo)
+    
+@app.route('/register')
+def register():
+     return render_template('register.html')
+
+
+    
+@app.route('/update')
+def update():
+    alltodo = Todo.query.all()
+    print(alltodo)
+    
+@app.route('/delete/<int:sno>')
+def delete(sno):
+    todo = Todo.query.filter_by(sno=sno).first()
+    db.session.delete(todo)
+    db.session.commit()
+    
+    return redirect("/")
+    
 if __name__ == "__main__":
     app.run(debug=True)
