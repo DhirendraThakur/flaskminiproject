@@ -48,3 +48,8 @@ s_no = db.column(db.Integer, primary_key = True)
 User_name = db.column(db.string, nullable= False)
 User_desc = db.column(db.string, nullable = Flase)
 date_created = db.column(db.DateTime, default = datetime.utcnow)
+
+
+
+### template inheritance
+
