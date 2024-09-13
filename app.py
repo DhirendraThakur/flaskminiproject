@@ -20,8 +20,21 @@ class Todo(db.Model):
     def __repr__(self) -> str:
         return f"{self.sno} -  {self.title}"
 
+class Register_user(db.Model):
+    __tablename__ = 'Register_user'
+    reg_no = db.Column(db.Integer, primary_key=True)
+    fullname = db.Column(db.String(100), nullable = False)
+    email = db.Column(db.String(100), nullable = False)
+    password = db.Column(db.String(100), nullable = False)
+    address = db.Column(db.String(400), nullable = False)
+    phone = db.Column(db.String(100), nullable = False)
+    def __repr__(self) -> str:
+        return f"{self.fullname} -  {self.email} -  {self.password} -  {self.address} -  {self.phone}"
+
+
 with app.app_context():
     db.create_all()
+    
 
 @app.route('/', methods =['GET', 'POST'])
 def main_page():
@@ -35,16 +48,20 @@ def main_page():
     
     return render_template('index.html', alltodo=alltodo)
    # return 'Hello, Dhiren welcome to your 1st flask project! Did you get new page'
-
-
-@app.route('/show')
-def product():
-    alltodo = Todo.query.all()
-    print(alltodo)
-    
-@app.route('/register')
+   
+@app.route('/register', methods =['GET', 'POST'])
 def register():
-     return render_template('register.html')
+    if request.method =="POST":
+        fullname = request.form['fullname']
+        email = request.form['email']
+        password = request.form['password']
+        address = request.form['address']
+        phone=request.form['phone']
+        register_user = Register_user(fullname=fullname, email=email, password=password, address = address, phone=phone)
+        db.session.add(register_user)
+        db.session.commit()
+    allreg = Register_user.query.all()
+    return render_template('register.html', allreg =allreg)
 
 
     
