@@ -63,6 +63,12 @@ def register():
     allreg = Register_user.query.all()
     return render_template('register.html', allreg =allreg)
 
+@app.route('/userdata', methods =['GET', 'POST'])
+def user_data():
+    allreg = Register_user.query.all()
+    return render_template('userdata.html',allreg =allreg )
+
+
 
     
 @app.route('/update/<int:sno>', methods =['GET', 'POST'])
@@ -86,6 +92,14 @@ def delete(sno):
     db.session.commit()
     
     return redirect("/")
+
+@app.route('/delete_userdata/<int:reg_no>')
+def delete_userdata(reg_no):
+    register_user = Register_user.query.filter_by(reg_no=reg_no).first()
+    db.session.delete(register_user)
+    db.session.commit()
+    
+    return redirect("/userdata")
     
 if __name__ == "__main__":
     app.run(debug=True)
