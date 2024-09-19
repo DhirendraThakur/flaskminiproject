@@ -84,6 +84,29 @@ def update(sno):
         return redirect("/")
     todo = Todo.query.filter_by(sno=sno).first()
     return render_template('update.html', todo=todo)
+
+@app.route('/updateuser/<int:reg_no>', methods =['GET', 'POST'])
+def updateuser(reg_no):
+    if request.method=='POST':
+        fullname =request.form['fullname']
+        email = request.form['email']
+        password = request.form['password']
+        address = request.form['address']
+        phone = request.form['phone']
+        register_user = Register_user.query.filter_by(reg_no=reg_no).first()
+        register_user.fullname = fullname
+        register_user.email = email
+        register_user.password = password
+        register_user.address = address
+        register_user.phone = phone
+        
+        db.session.add(register_user)
+        db.session.commit()
+        return redirect("/userdata")
+    register_user = Register_user.query.filter_by(reg_no=reg_no).first()
+    return render_template('updateuser.html', register_user=register_user)
+
+
     
 @app.route('/delete/<int:sno>')
 def delete(sno):
