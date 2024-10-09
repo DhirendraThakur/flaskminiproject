@@ -53,3 +53,7 @@ date_created = db.column(db.DateTime, default = datetime.utcnow)
 
 ### template inheritance
 
+
+
+
+self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.getsalt()).decode('utf-8')

@@ -1,14 +1,18 @@
-from flask import Flask, render_template, request, redirect
+
+from flask import Flask, render_template, request, redirect, session, url_for
 from sqlalchemy import create_engine, Column, Integer, String, DateTime
 
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import bcrypt
+
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///todo.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+app.secret_key='secret_key'
 
 class Todo(db.Model):
     __tablename__ = 'todo'
@@ -16,6 +20,7 @@ class Todo(db.Model):
     title = db.Column(db.String, nullable=False)
     desc= db.Column(db.String(500), nullable=False)
     date_created = db.Column(db.DateTime, default = datetime.utcnow)
+    
    ## data you want to see in table we use repr  
     def __repr__(self) -> str:
         return f"{self.sno} -  {self.title}"
@@ -28,8 +33,17 @@ class Register_user(db.Model):
     password = db.Column(db.String(100), nullable = False)
     address = db.Column(db.String(400), nullable = False)
     phone = db.Column(db.String(100), nullable = False)
-    def __repr__(self) -> str:
-        return f"{self.fullname} -  {self.email} -  {self.password} -  {self.address} -  {self.phone}"
+    def __init__ (self, fullname, email, password, address, phone):
+        self.fullname = fullname
+        self.email= email
+        self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        self.address = address
+        self.phone = phone
+    # def __repr__(self) -> str:
+    #     return f"{self.fullname} -  {self.email} -  {self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.getsalt()).decode('utf-8')} -  {self.address} -  {self.phone}"
+    def check_password(self, password):
+        return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
+        
 
 
 with app.app_context():
@@ -47,7 +61,7 @@ def main_page():
     alltodo = Todo.query.all()
     
     return render_template('index.html', alltodo=alltodo)
-   # return 'Hello, Dhiren welcome to your 1st flask project! Did you get new page'
+  
    
 @app.route('/register', methods =['GET', 'POST'])
 def register():
@@ -106,6 +120,30 @@ def updateuser(reg_no):
     register_user = Register_user.query.filter_by(reg_no=reg_no).first()
     return render_template('updateuser.html', register_user=register_user)
 
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        
+        
+        user = Register_user.query.filter_by(email=email).first()
+        if user and user.check_password(password):
+            session['fullname'] = user.fullname
+            session['email'] = user.email
+            session['password'] = user.password
+            return redirect('/dashboard')
+        else:
+            return render_template('login.html', error ="Invalid User!")
+        
+    return render_template('login.html')
+            
+@app.route('/dashboard')
+def dashboard():
+    if session['fullname']:
+        return render_template('dashboard.html')
+    return redirect('/login.html')
 
     
 @app.route('/delete/<int:sno>')
