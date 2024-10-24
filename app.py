@@ -1,6 +1,7 @@
 
-from flask import Flask, render_template, request, redirect, session, url_for
+from flask import Flask, render_template, request, redirect, session, url_for,flash
 from sqlalchemy import create_engine, Column, Integer, String, DateTime
+
 
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -13,6 +14,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///todo.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 app.secret_key='secret_key'
+
+
+
 
 class Todo(db.Model):
     __tablename__ = 'todo'
@@ -36,7 +40,9 @@ class Register_user(db.Model):
     def __init__ (self, fullname, email, password, address, phone):
         self.fullname = fullname
         self.email= email
+        
         self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        
         self.address = address
         self.phone = phone
     # def __repr__(self) -> str:
@@ -44,6 +50,16 @@ class Register_user(db.Model):
     def check_password(self, password):
         return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
         
+
+# class User(UserMixin):
+#     def __init__(self, id):
+#         self.id = id
+# User loader for Flask-Login
+# @login_manager.user_loader
+# def load_user(user_id):
+#     if user_id in Register_user:
+#         return Register_user(user_id)
+#     return None
 
 
 with app.app_context():
@@ -135,14 +151,16 @@ def login():
             session['password'] = user.password
             return redirect('/dashboard')
         else:
-            return render_template('login.html', error ="Invalid User!")
+           return render_template('login.html', error='Invalid username or password!')
         
     return render_template('login.html')
             
 @app.route('/dashboard')
+
 def dashboard():
     if session['fullname']:
-        return render_template('dashboard.html')
+        user = Register_user.query.filter_by(email = session['email']).first()
+        return render_template('dashboard.html', user=user)
     return redirect('/login.html')
 
     
