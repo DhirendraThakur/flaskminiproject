@@ -158,9 +158,11 @@ def login():
 @app.route('/dashboard')
 
 def dashboard():
-    if session['fullname']:
+    user = None
+    if 'fullname' in session:
         user = Register_user.query.filter_by(email = session['email']).first()
         return render_template('dashboard.html', user=user)
+    
     return redirect('/login.html')
 
     

@@ -44,7 +44,7 @@
                 </ul>
                 <form class="d-flex">
                   
-                  <a class="nav-link active" type="submit"><p><b>Email: </b> {{user.email }}</p></a>
+                  <a class="nav-link active" type="submit"><p><b>Email: </b> {{user.email if user else "Guest" }}</p></a>
                 </form>
               </div>
             </div>
