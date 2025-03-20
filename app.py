@@ -65,7 +65,7 @@ class Register_user(db.Model):
 with app.app_context():
     db.create_all()
     
-
+# this route will redirect to first landing page after typing python app.py
 @app.route('/', methods =['GET', 'POST'])
 def main_page():
     if request.method =="POST":
@@ -76,7 +76,11 @@ def main_page():
         db.session.commit() 
     alltodo = Todo.query.all()
     
-    return render_template('index.html', alltodo=alltodo)
+    return render_template('welcome_page.html', alltodo=alltodo)
+
+@app.route("/firstpage")
+def firstpage():
+    return render_template("welcome_page.html")
   
    
 @app.route('/register', methods =['GET', 'POST'])
