@@ -46,11 +46,100 @@ nav{
 
 }
 
-h1{
-    color: black;
+
+.navbar-brand{
+    color: white;
+    font: italic small-caps bold 18px "Times New Roman", serif;
+}
+.nav-item{
+    
+    font-style: italic;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 10px;
+}
+
+.dropdown-menu{
+   color: #fc6f11;
+    border-radius: 20px; /* Rounded corners */
+}
+.dropdown-item {
+    color: rgb(201, 12, 12); /* White text */
+    font-family: 'Arial', sans-serif; /* Custom Font */
+    font-size: 15px;
+    border-radius: 20px;
+}
+
+
+/* for Login page CSS from here */
+/* h1{
+    color: #fc6f11;
     font-weight: bold;
     font-style: italic;
-    font: italic small-caps bold 18px "Times New Roman", serif;
-    font-family: 'Poppins', sans-serif;
+    
+    font: italic small-caps bold 20px "Times New Roman", serif;
+    
 
+}
+.col-md-4{
+    color: #fc6f11;
+    font: italic small-caps bold 18px "Times New Roman", serif;
+
+}
+.my-3{
+    background: linear-gradient(to right, lightblue, pink);
+    
+} */
+
+.login-box{
+    width: 400px;
+    background: linear-gradient(to right, lightblue, pink);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+    padding: 20x;
+}
+/* Add space around the form element */
+.login-box .form-label{
+    font-weight: bold;
+
+}
+.login-box .btn{
+    width: 100px;
+}
+/*Improve button spacing*/
+.login-box .text-center a{
+    margin-left: 10px;
+}
+/* Base html nav bar edit*/
+.navbar-brand{
+    background: linear-gradient(to right, lightblue, pink);
+    border-radius: 10px;
+
+}
+.container-fluid{
+    background: whitesmoke;
+    border-radius: 10px;
+}
+
+/*Register html edit css part start from here*/
+.register-box{
+    width: 400px;
+    background: linear-gradient(to right, lightblue, pink);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.8);
+    padding: 20px;
+
+}
+
+.register-box .form-label{
+    font-weight: bold;
+}
+
+.register-box .btn{
+    width: 110px;
+
+}
+
+.register-box .text-center a{
+    margin-left: 20px;
 }
