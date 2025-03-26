@@ -26,8 +26,9 @@
             </tr>
             </thead>
             <tbody>
-        <tr>
+        
             {% for register_user in allreg %}
+            <tr>
             <th scope="row">{{loop.index}}</th>
             <td>{{register_user.fullname}}</td>
             <td>{{register_user.email}}</td>
@@ -39,9 +40,10 @@
                 <a href="/delete_userdata/{{register_user.reg_no}}" type="button" class="btn btn-outline-warning btn-sm mx-1">Delete</button>
             </td>
         </tr>
+        {% endfor %}
     </tbody>
 </table>    
-            {% endfor %}
+            
             {% endif %}
         
         

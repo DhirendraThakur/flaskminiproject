@@ -4,7 +4,7 @@
 
     <div class ="container my-3" >
       <h2> FeedBack</h2>
-      <form action ="/" method = "POST">
+      <form action ="/todo_page" method = "POST">
 
       <div class="mb-3">
           <label for="title" class="form-label">Title: </label>
@@ -40,24 +40,25 @@
                       </tr>
                     </thead>
                     <tbody>
+                         {% for todo in alltodo %}
+                        <tr>
               
-
-            {% for todo in alltodo %}
-            <tr>
+                            <th scope="row">{{loop.index}}</th>
+                            <td>{{todo.title}}</td>
+                            <td>{{todo.desc}}</td>
+                            <td>{{todo.date_created}}</td>
+                            <td>
+                              <a href="/update/{{todo.sno}}" type="button" class="btn btn-outline-success btn-sm mx-1">Update</button>
+                              <a href="/delete/{{todo.sno}}" type="button" class="btn btn-outline-warning btn-sm mx-1">Delete</button>
+                            </td>
               
-            <th scope="row">{{loop.index}}</th>
-            <td>{{todo.title}}</td>
-            <td>{{todo.desc}}</td>
-            <td>{{todo.date_created}}</td>
-            <td>
-              <a href="/update/{{todo.sno}}" type="button" class="btn btn-outline-success btn-sm mx-1">Update</button>
-              <a href="/delete/{{todo.sno}}" type="button" class="btn btn-outline-warning btn-sm mx-1">Delete</button>
-            </td>
-              
-          </tr>
-        </tbody>
-      </table>
-            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+        
+      
+            
             {% endif %}
               
               

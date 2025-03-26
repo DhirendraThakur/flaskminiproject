@@ -68,6 +68,12 @@ with app.app_context():
 # this route will redirect to first landing page after typing python app.py
 @app.route('/', methods =['GET', 'POST'])
 def main_page():
+    
+    
+    return render_template('welcome_page.html',)
+
+@app.route('/todo_page', methods =['GET', 'POST'])
+def todo_page():
     if request.method =="POST":
         title =request.form['title']
         desc = request.form['desc']
@@ -75,8 +81,7 @@ def main_page():
         db.session.add(todo)
         db.session.commit() 
     alltodo = Todo.query.all()
-    
-    return render_template('welcome_page.html', alltodo=alltodo)
+    return render_template('index.html', alltodo=alltodo)
 
 @app.route("/firstpage")
 def firstpage():
@@ -115,7 +120,7 @@ def update(sno):
         todo.desc = desc
         db.session.add(todo)
         db.session.commit()
-        return redirect("/")
+        return redirect("/todo_page")
     todo = Todo.query.filter_by(sno=sno).first()
     return render_template('update.html', todo=todo)
 
@@ -176,7 +181,7 @@ def delete(sno):
     db.session.delete(todo)
     db.session.commit()
     
-    return redirect("/")
+    return redirect("/todo_page")
 
 @app.route('/delete_userdata/<int:reg_no>')
 def delete_userdata(reg_no):
